@@ -14,6 +14,12 @@
 #define READ_MEMSIZE 3
 #define READ_REQ_TYPE 2
 
+struct alloc_data {
+	int start_loc;
+	int end_loc;
+	struct app_alloc_data * next;
+};
+
 
 /*
  * each mem unit.
@@ -37,8 +43,13 @@ struct memory_unit * get_mem_unit(const char * app_name, const int req_size) {
 
 
 struct memory_manager {
-	int max_limit;//MAX limit that this mem can allocate.
+	int max_limit; //MAX limit that this mem can allocate.
 	int cur_capacity;
+	int num_application;
+	
+	struct alloc_data * alloc_apps_data;
+	struct alloc_data * free_data;
+
 	int num_misses;
 	struct memory_unit * main_memory;
 };
@@ -101,11 +112,12 @@ void print_memory(const struct memory_manager *  ram_manager) {
 
 void process_file(const char * fileName);
 void execute_request(const char * line);
+int get_line_count(const char * fileName);
 
 int main(int argc, char **argv) {
 
-	if (argc != 2) {
-		printf("Usage ./memory_manager allocation_seq_file\n");
+	if (argc != 3) {
+		printf("Usage ./memory_manager allocation_seq_file allocation_file\n");
 		exit(0);
 	}
 
@@ -127,6 +139,23 @@ int main(int argc, char **argv) {
 	// //my_malloc(&m_manager, app1, 10, FREE_REQ);
 
 	// print_memory(&m_manager);
+}
+
+int get_line_count(const char * fileName) {
+	FILE * fp = fopen(fileName, "r");
+	char ch;
+	int count = 0;
+	if (fp == NULL) {
+		printf("File not found %s\n",fileName);
+		exit(1);
+	}
+
+	while ((ch=fgetc(fp)) && ch != EOF) {
+		if (ch == '\n') {
+			count++;
+		}
+	}
+	return count;
 }
 
 // memory manager as a param
