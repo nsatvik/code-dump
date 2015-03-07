@@ -45,8 +45,8 @@ struct memory_unit * get_mem_unit(const char * app_name, const int req_size) {
 struct memory_manager {
 	int max_limit; //MAX limit that this mem can allocate.
 	int cur_capacity;
-	int num_application;
 	
+	int num_application;
 	struct alloc_data * alloc_apps_data;
 	struct alloc_data * free_data;
 
