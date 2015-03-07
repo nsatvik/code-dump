@@ -1,8 +1,10 @@
 package tf.restapi.server;
 
-import tf.restapi.server.RequestResponseFactory.RequestType;
-
 public class Request {
+  public enum RequestType {
+    get_default, get_file_form, post_file, get_word, post_execution
+  };
+
   private RequestType mReqType;
   private String mPayload; // payload contains the necessary args for server to process.
 

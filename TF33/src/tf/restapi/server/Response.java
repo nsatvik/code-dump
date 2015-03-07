@@ -1,6 +1,6 @@
 package tf.restapi.server;
 
-import tf.restapi.server.RequestResponseFactory.RequestType;
+import tf.restapi.server.Request.RequestType;
 
 import java.util.Map;
 
@@ -26,6 +26,6 @@ public class Response {
     if (mLinks != null && mLinks.containsKey(i)) {
       return mLinks.get(i);
     }
-    return new Request(RequestType.valueOf("get_default"));
+    return new Request(RequestType.get_default);
   }
 }
